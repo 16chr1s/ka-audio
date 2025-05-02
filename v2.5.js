@@ -97,7 +97,7 @@ audioplayer.prototype.playNote = function(midiNote, velocity, dur, offset) {
     gainNode.connect(this.ctx.destination);
 
     source.start(this.ctx.currentTime + offset);
-    source.stop(this.ctx.currentTime + offset + dur + 0.1);
+    source.stop(this.ctx.currentTime + offset + dur + 2);
 };
 
 audioplayer.prototype.playMidi = function(midiData){
