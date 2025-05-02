@@ -16,7 +16,7 @@ function audioplayer(audiotype, b64) {
     if(audiotype=="base64"){ 
         this.load(b64)
     } else if(audiotype == "piano"){
-        this.load(this.pianoNotes[1]);
+        this.loadPiano();
     }
 }
 
