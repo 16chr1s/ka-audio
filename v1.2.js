@@ -54,13 +54,13 @@ audioplayer.prototype.playNote = function(freq, velocity, dur,offset) {
     source.playbackRate.value = Math.pow(2, (freq-60) / 12);
     
     const gainNode = this.ctx.createGain();
-    gainNode.gain.value = 1;
+    gainNode.gain.value = velocity*4;
     
     source.connect(gainNode);
     gainNode.connect(this.ctx.destination);
     
     source.start(offset);
-    source.stop(this.ctx.currentTime + offset+ dur+2);
+    source.stop(this.ctx.currentTime + offset+ dur+1);
 
 };
 audioplayer.prototype.playMidi = function(midiData){
