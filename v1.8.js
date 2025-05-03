@@ -90,16 +90,16 @@ function audioplayer(ty, input){
     };
     function decodeMidi(midiData){
         var mididata = midiData.split(";");
-        var returndata = [];
+        var returndata = {notes: []};
         for (var i = 0; i < mididata.length; i++){
             var notesdata = mididata[i].split(",");
-            returndata.push({midi: notesdata[0], velocity: notesdata[1]/1000, duration: notesdata[2], time: notesdata[3]});
+            returndata.notes.push({midi: notesdata[0], velocity: notesdata[1]/1000, duration: notesdata[2]/1000, time: notesdata[3]/1000});
         }
         return returndata;
     }
     function playMidi(midiData){
             var mididata = decodeMidi(midiData);
-            midiData.forEach(note => {
+            midiData.notes.forEach(note => {
                 var  midi = note.midi, velocity = note.velocity, duration = note.duration, time = note.time;
                 playNote(midi, velocity, duration, time);
             });
