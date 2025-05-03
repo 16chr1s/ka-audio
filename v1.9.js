@@ -85,21 +85,24 @@ function audioplayer(ty, input){
         gainNode.connect(ctx.destination);
         
         pulse.start(offset);
-        pulse.stop(ctx.currentTime + offset + dur + 1);
+        pulse.stop(ctx.currentTime + offset + dur);
     
     };
     function decodeMidi(midiData){
-        var mididata = midiData.split(";");
-        var returndata = {notes: []};
-        for (var i = 0; i < mididata.length; i++){
-            var notesdata = mididata[i].split(",");
-            returndata.notes.push({midi: notesdata[0], velocity: notesdata[1]/1000, duration: notesdata[2]/1000, time: notesdata[3]/1000});
-        }
-        return returndata;
+        return midiData.split(";").map(entry => {
+    const [m, v, d, t] = entry.split(",").map(x => parseInt(x, 16));//this decoding was by chatgpt, might change later
+
+        return {
+        midi: m,
+        velocity: v / 100,       
+        duration: d / 1000,     
+        time: t / 1000        
+        };
+  });
     }
     function playMidi(midiData){
             var mididata = decodeMidi(midiData);
-            midiData.notes.forEach(note => {
+            mididata.forEach(note => {
                 var  midi = note.midi, velocity = note.velocity, duration = note.duration, time = note.time;
                 playNote(midi, velocity, duration, time);
             });
