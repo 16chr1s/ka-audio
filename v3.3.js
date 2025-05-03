@@ -89,6 +89,9 @@ function audioplayer(ty, input){
         
     
     };
+    function pauseMidi(){
+        state.node.stop();
+    }
     function decodeMidi(midiData){
         return midiData.split(";").map(entry => {
     const [m, v, d, t] = entry.split(",").map(x => parseInt(x, 16));//this decoding was by chatgpt, might change later
@@ -122,5 +125,6 @@ function audioplayer(ty, input){
         reset: reset,
         playNote: playNote,
         playMidi: playMidi,
+        pauseMidi: pauseMidi
     }
 }
