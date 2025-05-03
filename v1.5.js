@@ -112,6 +112,8 @@ function audioplayer(ty, input){
         play: play,
         pause: pause,
         toggle: toggle,
-        reset: reset
+        reset: reset,
+        playNote: playNote,
+        playMidi: playMidi,
     }
 }
