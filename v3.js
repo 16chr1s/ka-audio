@@ -85,7 +85,7 @@ function audioplayer(ty, input){
         gainNode.connect(ctx.destination);
         
         pulse.start(offset);
-        pulse.stop(ctx.currentTime + offset + dur);
+        pulse.stop(ctx.currentTime + offset + dur + 1);
     
     };
     function decodeMidi(midiData){
