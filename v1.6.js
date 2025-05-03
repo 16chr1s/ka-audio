@@ -88,19 +88,21 @@ function audioplayer(ty, input){
         pulse.stop(ctx.currentTime + offset + dur + 1);
     
     };
+    function decodeMidi(midiData){
+        var mididata = midiData.split(";");
+        var returndata = [];
+        for (var i = 0; i < mididata.length; i++){
+            var notesdata = mididata[i].split(",");
+            returndata.push({midi: notesdata[0], velocity: notesdata[1]/1000, duration: notesdata[2], time: notesdata[3]});
+        }
+    }
     function playMidi(midiData){
-        var startTime = ctx.currentTime;
-    
-        midiData.tracks.forEach(track => {
-            track.notes.forEach(note => {
-                var freq = note.midi;
-                var velocity = note.velocity;
-                var duration = note.duration;
-                var timeOffset = note.time;
-    
-                playNote(freq, velocity, duration, timeOffset);
+            var mididata = decodeMidi(midiData);
+            midiData.forEach(note => {
+                var  midi = note.midi, velocity = note.velocity, duration = note.duration, time = note.time;
+                playNote(midi, velocity, duration, time);
             });
-        });
+        
     };
     if(ty == "base64"){
         load(input);
