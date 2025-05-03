@@ -95,6 +95,7 @@ function audioplayer(ty, input){
             var notesdata = mididata[i].split(",");
             returndata.push({midi: notesdata[0], velocity: notesdata[1]/1000, duration: notesdata[2], time: notesdata[3]});
         }
+        return returndata;
     }
     function playMidi(midiData){
             var mididata = decodeMidi(midiData);
