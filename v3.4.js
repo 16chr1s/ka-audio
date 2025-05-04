@@ -85,7 +85,7 @@ function audioplayer(ty, input){
         gainNode.connect(ctx.destination);
         state.node = pulse;
         pulse.start(offset);
-        pulse.stop(ctx.currentTime + offset + dur + 0.5);
+        pulse.stop(ctx.currentTime + offset + dur);
         
     
     };
@@ -99,7 +99,7 @@ function audioplayer(ty, input){
         return {
         midi: m,
         velocity: v / 100,       
-        duration: d / 1000,     
+        duration: d / 100,     
         time: t / 1000        
         };
   });
