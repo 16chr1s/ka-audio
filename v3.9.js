@@ -17,7 +17,7 @@ function audioplayer(ty, input){
         decodedNotes: { }
 
     };
-    function loadNotes() {
+    async function loadNotes() {
         var entries = Object.entries(state.pianoNotes);
         for (var [midiStr, b64] of entries) {
             var raw = atob(b64.split(",")[1]);
