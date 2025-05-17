@@ -89,7 +89,7 @@ function audioplayer(ty, input){
         if (!state.buf) return;
         var pulse = ctx.createBufferSource();
         pulse.buffer = state.buf;
-        source.playbackRate.value = Math.pow(2, semitoneDiff / 12);
+        pulse.playbackRate.value = Math.pow(2, semitoneDiff / 12);
         //pulse.playbackRate.value = Math.pow(2, (freq-60) / 12);
         
         var gainNode = ctx.createGain();
