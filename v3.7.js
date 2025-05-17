@@ -79,15 +79,14 @@ function audioplayer(ty, input){
     function playNote(freq, velocity, dur,offset) {
         
         
-        var availableNotes = Object.keys(state.pianoNotes).map(Number);
-        var closest = availableNotes.reduce((a, b) =>
-        Math.abs(b - freq) < Math.abs(a - freq) ? b : a
-);
-
-        load(sate.pianoNotes[closest]);
-        var semitoneDiff = freq - closest;
+        
         if (!state.buf) return;
         var pulse = ctx.createBufferSource();
+        var availableNotes = Object.keys(state.pianoNotes).map(Number);
+        var closest = availableNotes.reduce((a, b) =>
+        Math.abs(b - freq) < Math.abs(a - freq) ? b : a);
+        load(state.pianoNotes[closest]);
+        var semitoneDiff = freq - closest;
         pulse.buffer = state.buf;
         pulse.playbackRate.value = Math.pow(2, semitoneDiff / 12);
         //pulse.playbackRate.value = Math.pow(2, (freq-60) / 12);
