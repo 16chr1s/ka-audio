@@ -17,16 +17,32 @@ function audioplayer(ty, input){
         decodedNotes: { }
 
     };
-    async function loadNotes() {
-        var entries = Object.entries(state.pianoNotes);
-        for (var [midiStr, b64] of entries) {
-            var raw = atob(b64.split(",")[1]);
-            var bin = new Uint8Array(raw.length);
-            for (let i = 0; i < raw.length; i++) bin[i] = raw.charCodeAt(i);
+    function decodeNote(b64, cb) {
+        var raw = atob(b64.split(",")[1]);
+        var bin = new Uint8Array(raw.length);
+        for (var i = 0; i < raw.length; i++) bin[i] = raw.charCodeAt(i);
 
-            var buf = await ctx.decodeAudioData(bin.buffer);
-            state.decodedNotes[parseInt(midiStr)] = buf;
-        }
+        ctx.decodeAudioData(bin.buffer, function(buffer) {
+            cb(null, buffer);
+        }, function(err) {
+            cb(err);
+        });
+    }
+    function loadNotes(callback) {
+        var keys = Object.keys(state.pianoNotes).map(Number);
+        var loaded = 0;
+
+        keys.forEach((key) => {
+            decodeNote(state.pianoNotes[key], function(err, buffer) {
+                if (err) {
+                    console.error("Failed to load note", key);
+                    return;
+                }
+                state.decodedNotes[key] = buffer;
+                loaded++;
+                if (loaded === keys.length) callback(); // all loaded
+            });
+        });
     }
     function load(b64){
         var raw = b64.split(",")[1];
@@ -92,7 +108,7 @@ function audioplayer(ty, input){
         if (!available.length) return;
 
         var closest = available.reduce((a, b) =>
-            Math.abs(b - midi) < Math.abs(a - midi) ? b : a
+            Math.abs(b - freq) < Math.abs(a - freq) ? b : a
         );
    
         var buf = state.decodedNotes[closest]
@@ -137,14 +153,16 @@ function audioplayer(ty, input){
             mididata.forEach(note => {
                 var  midi = note.midi, velocity = note.velocity, duration = note.duration, time = note.time;
        
-                playNote(midi, velocity, duration, time);}
+                playNote(midi, velocity, duration, time);
             });
         
     };
     if(ty == "base64"){
         load(input);
     } else if (ty == "piano"){
-        loadNotes();
+        loadNotes(function() {
+            if (typeof onReady === "function") onReady();
+        });
     }
     
     return {
