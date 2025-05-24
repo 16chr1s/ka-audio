@@ -1,12 +1,4 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>New webpage</title>
-    </head>
-    <body>
-    <button id="piano">click</button>
-    <script type="module">
+
 function audioplayer(ty, input, onReady) {
     var sys = (window.AudioContext || window.webkitAudioContext);
     var ctx = new sys();
