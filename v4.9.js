@@ -33,7 +33,7 @@ function audioplayer(ty, input, onReady) {
         },
     };
     function load(b64){
-        console.log(b64)
+        
         var raw = b64.split(",")[1];
         var bin = atob(raw);
         var temp = new Uint8Array(bin.length);
@@ -148,7 +148,7 @@ function audioplayer(ty, input, onReady) {
 
     function renderToWavBase64(midiData) {console.log("base64")
         scheduleOfflineMidi(midiData, offlineCtx, state.decodedNotes);
-        console.log("base64")
+        
         offlineCtx.startRendering().then(function(rendered){console.log("ok")
             const base64 = exportWavBuffer(rendered);
             load(base64)
