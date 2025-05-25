@@ -4,11 +4,16 @@ function audioplayer(ty, input, onReady) {
     var ctx = new sys();
     var sampleRate = 44100;
     var durationInSeconds = 1;
+    var offlineCtx;
+    if (ty === "pianoRender") {
+        let parts = input.split(";");
+        let last = parts[parts.length - 1];
+        durationInSeconds = parseInt(last.split(",")[3], 16) / 1000 + 2; // add padding
+        offlineCtx = new OfflineAudioContext(1, sampleRate * durationInSeconds, sampleRate);
 
-    
+    }
 
-    var offlineCtx = new OfflineAudioContext(1, sampleRate * durationInSeconds, sampleRate);
-
+ 
     var state = {
         buf: null,
         node: null,
@@ -220,9 +225,7 @@ function audioplayer(ty, input, onReady) {
             if (typeof onReady === "function") onReady();
         });
     } else if (ty === "pianoRender") {
-        let parts = input.split(";");
-        let last = parts[parts.length - 1];
-        durationInSeconds = parseInt(last.split(",")[3], 16) / 1000 + 2; // add padding
+
         loadNotes(function () {
             if (typeof onReady === "function") onReady();
         });
