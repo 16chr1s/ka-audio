@@ -9,6 +9,9 @@ function audioplayer(ty, input, onReady) {
         let parts = input.split(";");
         let last = parts[parts.length - 1];
         durationInSeconds = parseInt(last.split(",")[3], 16) / 1000 + 2; // add padding
+        loadNotes(function () {
+            if (typeof onReady === "function") onReady();
+        });
     }
 
     var offlineCtx = new OfflineAudioContext(1, sampleRate * durationInSeconds, sampleRate);
